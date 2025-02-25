@@ -3,8 +3,8 @@ library(plumber)
 library(data.table)
 library(jsonlite)
 
-# Load the processed data
-flights_dt <- fread("C:/Users/LENOVO/Pictures/MYPROJECTS/R-PROJECT/processed_flights.csv")
+# Load the processed data from the current directory
+flights_dt <- fread("processed_flights.csv")  
 
 #* @apiTitle Flights API
 
@@ -139,6 +139,9 @@ function(id, res) {
     res$status <- 404
     return(list(error = "Flight not found"))
   }
+  flights_dt <<- flights_dt[flight_id != id]
+  list(message = "Flight deleted", flight_id = id)
+}
   flights_dt <<- flights_dt[flight_id != id]
   list(message = "Flight deleted", flight_id = id)
 }
